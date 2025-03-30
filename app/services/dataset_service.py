@@ -36,3 +36,22 @@ def list_datasets() -> Dict[str, dict]:
         for dataset_id, info in datasets_storage.items()
     }
 
+def get_dataset_info(dataset_id: str) -> dict:
+    """Retourne les informations sur un dataset spécifique."""
+    if dataset_id not in datasets_storage:
+        raise HTTPException(status_code=404, detail="Dataset non trouvé")
+    info = datasets_storage[dataset_id]
+    return {
+        "id": dataset_id,
+        "filename": info["filename"],
+        "size": info["size"]
+    }
+
+def delete_dataset(dataset_id: str) -> None:
+    """Supprime un dataset de la mémoire."""
+    if dataset_id not in datasets_storage:
+        raise HTTPException(status_code=404, detail="Dataset introuvable")
+    del datasets_storage[dataset_id]
+
+    
+
